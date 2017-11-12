@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 import BookList from '../BookList';
 import BookSearch from '../BookSearch';
 import BookDetails from '../BookDetails';
+import NoMatch from '../NoMatch';
 
 import * as BooksAPI from '../../utils/BooksAPI';
 import shelves from '../../constants/shelves';
@@ -115,43 +116,47 @@ class App extends Component {
 
     return (
       <div className="app">
-        { /* Book list page */ }
-        <Route
-          exact
-          path="/"
-          render={() => (
-            <BookList
-              books={books}
-              shelves={shelves}
-              onShelfChange={this.changeBookShelf}
-            />
-          )}
-        />
+        <Switch>
+          { /* Book list page */ }
+          <Route
+            exact
+            path="/"
+            render={() => (
+              <BookList
+                books={books}
+                shelves={shelves}
+                onShelfChange={this.changeBookShelf}
+              />
+            )}
+          />
 
-        { /* Search books page */ }
-        <Route
-          path="/search"
-          render={() => (
-            <BookSearch
-              results={results}
-              query={query}
-              onQueryChange={event => this.updateQuery(event.target.value)}
-              onShelfChange={this.changeBookShelf}
-            />
-          )}
-        />
+          { /* Search books page */ }
+          <Route
+            path="/search"
+            render={() => (
+              <BookSearch
+                results={results}
+                query={query}
+                onQueryChange={event => this.updateQuery(event.target.value)}
+                onShelfChange={this.changeBookShelf}
+              />
+            )}
+          />
 
-        { /* Book details page */ }
-        <Route
-          path="/details/:bookId"
-          render={props => (
-            <BookDetails
-              onBackLinkClick={() => props.history.goBack()}
-              bookId={props.match.params.bookId}
-              onShelfChange={this.changeBookShelf}
-            />
-          )}
-        />
+          { /* Book details page */ }
+          <Route
+            path="/details/:bookId"
+            render={props => (
+              <BookDetails
+                onBackLinkClick={() => props.history.goBack()}
+                bookId={props.match.params.bookId}
+                onShelfChange={this.changeBookShelf}
+              />
+            )}
+          />
+          { /* 404 error page */ }
+          <Route component={NoMatch} />
+        </Switch>
       </div>
     );
   }
