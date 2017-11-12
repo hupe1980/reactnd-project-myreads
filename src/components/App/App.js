@@ -29,46 +29,49 @@ class App extends Component {
   }
 
   updateBookState(changedBook) {
-    this.setState((state) => {
+    this.setState((previousState) => {
+      const { books } = previousState;
       // remove book from state
       if (changedBook.shelf === 'none') {
         return {
-          books: state.books.filter(b => b.id !== changedBook.id),
+          books: books.filter(b => b.id !== changedBook.id),
         };
       }
 
-      const index = state.books.findIndex(b => b.id === changedBook.id);
+      const index = books.findIndex(b => b.id === changedBook.id);
 
       // add book to state
       if (index === -1) {
         return {
-          books: [...state.books, changedBook],
+          books: [...books, changedBook],
         };
       }
 
       // change shelf for book in state
-      const newState = state.books;
-      newState[index] = changedBook;
+      const newBooks = [...books];
+      newBooks[index] = changedBook;
       return {
-        books: newState,
+        books: newBooks,
       };
     });
   }
 
   updateResultState(changedBook) {
-    this.setState((state) => {
-      const index = state.results.findIndex(b => b.id === changedBook.id);
+    this.setState((previousState) => {
+      const { results } = previousState;
+
+      const index = results.findIndex(b => b.id === changedBook.id);
 
       if (index !== -1) {
-        const newState = state.results;
-        newState[index] = changedBook;
+        const newResults = [...results];
+        newResults[index] = changedBook;
         return {
-          results: newState,
+          results: newResults,
         };
       }
 
       return {
-        results: state.results,
+        results,
       };
     });
   }
