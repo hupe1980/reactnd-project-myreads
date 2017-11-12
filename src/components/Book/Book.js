@@ -19,15 +19,20 @@ const defaultProps = {
 
 const authorsString = ({ authors }) => (authors ? authors.join(', ') : 'Unknown');
 
+const bookCoverStyle = ({ imageLinks }) => (imageLinks ?
+  { width: 128, height: 193, backgroundImage: `url('${imageLinks.thumbnail}')` }
+  :
+  { width: 128, height: 193 });
+
 const Book = ({ book, hasDetailsLink, onShelfChange }) => (
   <div className="book">
     <div className="book-top">
       {hasDetailsLink ?
         <Link to={`/details/${book.id}`}>
-          <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url('${book.imageLinks.thumbnail}')` }} />
+          <div className="book-cover" style={bookCoverStyle(book)} />
         </Link>
         :
-        <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url('${book.imageLinks.thumbnail}')` }} />
+        <div className="book-cover" style={bookCoverStyle(book)} />
       }
       <BookShelfChanger book={book} onShelfChange={onShelfChange} />
     </div>
