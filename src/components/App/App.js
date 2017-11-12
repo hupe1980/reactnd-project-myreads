@@ -84,7 +84,7 @@ class App extends Component {
   }
 
   updateQuery(query) {
-    this.setState({ query: query.trim() }, this.searchBooks);
+    this.setState({ query }, this.searchBooks);
   }
 
   searchBooks() {
